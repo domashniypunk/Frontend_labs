@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная работа №3</title>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+</head>
+<body>
+    <p>1. Сгенерировать строку из случайных латинских букв. Строку разбить на символы, каждый символ перевести в верхний регистр, собрать массив из кодов этих символов, оставить только те коды, которые не делятся на 5 и посчитать сумму остатков деления этих кодов на 5. (Указание – использовать методы обхода массивов). </p>
+    <div id="result"></div>
+
+    <script>
+
+      function generateRandomString(length) {
+        let result = '';
+        let characters = 'abcdefghijklmnopqrstuvwxyz';
+        let charactersLength = characters.length;
+  
+        for (let i = 0; i < length; i++) {
+
+          result += characters.charAt(Math.floor(Math.random() * charactersLength));
+
+        }
+  
+        return result;
+      }
+  
+      let randomString = generateRandomString(10); 
+      let stringArray = randomString.split(''); 
+      let charCodes = stringArray.map(function(char) {
+
+        return char.toUpperCase().charCodeAt(0); //
+
+      });
+  
+      let filteredCodes = charCodes.filter(function(code) {
+
+        return code % 5 !== 0; 
+
+      });
+  
+      let sum = filteredCodes.reduce(function(acc, code) {
+
+        return acc + (code % 5); 
+
+      }, 0);
+  
+      let resultElement = document.getElementById("result");
+      resultElement.innerHTML = "<p>Сгенерированная строка: " + randomString + "</p>" +
+                                "<p>Массив кодов символов: " + charCodes + "</p>" +
+                                "<p>Отфильтрованные коды: " + filteredCodes + "</p>" +
+                                "<p>Сумма остатков деления на 5: " + sum + "</p>";
+    </script>
+
+  <p>2.	Сгенерировать массив из 1000 случайных чисел в диапазоне s ± p%, отсортировать его по убыванию остатков от деления на 10.</p>
+  <p>Отсортированный массив: </p>
+  <script>
+   
+    function generateArray() {
+
+      let s = 500; 
+      let p = 10; 
+
+      let array = [];
+      for (let i = 0; i < 1000; i++) {
+
+        let min = s - (s * p / 100);
+        let max = s + (s * p / 100);
+        let randomNum = Math.floor(Math.random() * (max - min + 1)) + min;
+        array.push(randomNum);
+
+      }
+
+      return array;
+    }
+
+    function sortArray(array) {
+
+      array.sort(function(a, b) {
+
+        return b % 10 - a % 10;
+
+      });
+
+      return array;
+    }
+
+    let array = generateArray();
+    let sortedArray = sortArray(array);
+
+    let result = sortedArray.join(", ");
+    document.body.innerHTML += result;
+  </script>
+
+  <p>3.	Создать функцию, которая вернет: 
+     a. Среднее арифметическое своих аргументов 
+     b. Среднее гармоническое своих аргументов </p>
+  <p>Вычисление средних:</p>
+  <script>
+    function AverageCalculator() {
+      this.calculateArithmeticAverage = function() {
+        let sum = 0;
+        let count = arguments.length;
+
+        for (let i = 0; i < count; i++) {
+          sum += arguments[i];
+        }
+
+        return sum / count;
+      };
+
+      this.calculateHarmonicAverage = function() {
+        let sum = 0;
+        let count = arguments.length;
+
+        for (let i = 0; i < count; i++) {
+          sum += 1 / arguments[i];
+        }
+
+        return count / sum;
+      };
+
+      this.displayResults = function() {
+        let argumentsArray = [2, 4, 6, 8, 10];
+
+        let arithmeticAverage = this.calculateArithmeticAverage.apply(null, argumentsArray);
+        let harmonicAverage = this.calculateHarmonicAverage.apply(null, argumentsArray);
+
+        let resultDiv = document.createElement('div');
+        resultDiv.innerHTML = '<p class="result-text">Среднее арифметическое: ' + arithmeticAverage + '</p>' +
+                              '<p class="result-text">Среднее гармоническое: ' + harmonicAverage + '</p>';
+
+        document.body.appendChild(resultDiv);
+      };
+    }
+
+    var averageCalculator = new AverageCalculator();
+    averageCalculator.displayResults();
+  </script>
+    <p>4. Создать массив из списка имен. Сгенерировать массив из 20 объектов типа «Человек». У каждого объекта должно быть случайным образом выбрано имя, возраст, а также метод, который выводит имя и возраст данного человека. Прогнать методом обхода по этому массиву и заставить каждого человека представиться.</p>
+    <div id="res"></div>
+    <script>
+      const names = [
+        "Анна", "Мария", "Евгения", "София", "Алиса", "Виктория", "Арина", "Дарья", "Александра", "Варвара"
+      ];
+    
+      function getRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+    
+      function createPerson() {
+        const name = names[getRandomNumber(0, names.length - 1)];
+        const age = getRandomNumber(18, 65);
+    
+        return {
+          name: name,
+          age: age,
+          introduce: function() {
+            return "Меня зовут " + this.name + ", мне " + this.age + " лет.";
+          }
+        };
+      }
+    
+      const people = Array.from({ length: 20 }, createPerson);
+    
+      function displayIntroductions() {
+        const resultElement = document.getElementById("res");
+        resultElement.innerHTML = "";
+    
+        const introductions = people.map(function(person) {
+          return person.introduce();
+        });
+    
+        const paragraph = document.createElement("p");
+        paragraph.textContent = introductions.join(" ");
+        resultElement.appendChild(paragraph);
+      }
+    
+      displayIntroductions();
+    </script>
+</body>
+</html>

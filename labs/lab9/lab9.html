@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>TODO-лист</title>
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    input {
+        width: 300px;
+    }
+    .button6 {
+  background-color: #a3a1c9;
+  border-radius: 100px;
+  box-shadow: rgba(118, 44, 187, 0.2) 0 -25px 18px -14px inset,rgba(118, 44, 187, 0.2) 0 1px 2px,rgba(118, 44, 187, 0.2) 0 2px 4px,rgba(118, 44, 187, 0.2) 0 4px 8px,rgba(118, 44, 187, 0.2) 0 8px 16px,rgba(118, 44, 187, 0.2) 0 16px 32px;
+  color: rgb(126, 0, 128);
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 15px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+  </style>
+</head>
+<body>
+  <h1>TODO-лист</h1>
+
+  <form id="todo-form">
+    <input type="text" id="todo-input" placeholder="Введите задачу" required />
+    <button class="button6" type="submit">Добавить</button>
+  </form>
+
+  <ul id="todo-list"></ul>
+
+  <script>
+    // Функция для получения сохраненного списка задач из Local Storage
+    function getTodoList() {
+      const todoList = localStorage.getItem('todoList');
+      return todoList ? JSON.parse(todoList) : [];
+    }
+
+    // Функция для сохранения списка задач в Local Storage
+    function saveTodoList(todoList) {
+      localStorage.setItem('todoList', JSON.stringify(todoList));
+    }
+
+    // Функция для отображения списка задач
+    function renderTodoList() {
+      const todoList = getTodoList();
+      const todoListElement = document.getElementById('todo-list');
+      todoListElement.innerHTML = '';
+
+      todoList.forEach((todo, index) => {
+        const itemElement = document.createElement('li');
+        itemElement.innerText = todo;
+        itemElement.innerHTML += `<button class = "button6" onclick="editTodoItem(${index})">Редактировать</button>`;
+        itemElement.innerHTML += `<button class = "button6" onclick="deleteTodoItem(${index})">Удалить</button>`;
+        todoListElement.appendChild(itemElement);
+      });
+    }
+
+    // Функция для добавления новой задачи в список
+    function addTodoItem(todo) {
+      const todoList = getTodoList();
+      todoList.push(todo);
+      saveTodoList(todoList);
+      renderTodoList();
+      vibrateDevice(); // Запуск вибрации при успешном добавлении задачи
+    }
+
+    // Функция для редактирования задачи в списке
+    function editTodoItem(index) {
+      const todoList = getTodoList();
+      const updatedTodo = prompt('Введите новое значение задачи', todoList[index]);
+      if (updatedTodo) {
+        todoList[index] = updatedTodo;
+        saveTodoList(todoList);
+        renderTodoList();
+        vibrateDevice(); // Запуск вибрации при успешном редактировании задачи
+      }
+    }
+
+    // Функция для удаления задачи из списка
+    function deleteTodoItem(index) {
+      const todoList = getTodoList();
+      todoList.splice(index, 1);
+      saveTodoList(todoList);
+      renderTodoList();
+      vibrateDevice(); // Запуск вибрации при успешном удалении задачи
+    }
+
+    // Функция для вибрации устройства
+    function vibrateDevice() {
+      if ('vibrate' in navigator) {
+        navigator.vibrate([100, 100]); // Вибрация на 100 мс, пауза 100 мс, повторить 1 раз
+      }
+    }
+
+    // Обработчик отправки формы
+    document.getElementById('todo-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const todoInput = document.getElementById('todo-input');
+      const todo = todoInput.value.trim();
+      if (todo) {
+        addTodoItem(todo);
+        todoInput.value = '';
+      }
+    });
+
+    // Инициализация TODO-листа при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function () {
+      renderTodoList();
+    });
+  </script>
+</body>
+</html>

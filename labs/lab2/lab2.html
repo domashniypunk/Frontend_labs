@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторная работа №2</title>
+    <link rel="stylesheet" href="../../css/reset.css">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel = "stylesheet" href = "../../css/style.css">
+</head>
+<body> 
+  <p>5. Сгенерировать строку из случайных латинских букв. </p>
+  <script>
+    function generateRandomString() {
+      const letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let randomString = '';
+  
+      for (let i = 0; i < 10; i++) {
+        let randomIndex = Math.floor(Math.random() * letters.length);
+        randomString += letters.charAt(randomIndex);
+      }
+  
+      let resultElement = document.getElementById("result1");
+      resultElement.textContent = randomString;
+      resultElement.innerHTML = "<p>Строка из случайных латинских букв: " + randomString  + "</p>";
+    }
+  </script>
+  
+  <div class="button-container">
+    <button onclick="generateRandomString()">Сгенерировать</button>
+  </div>
+  <div id="result1"></div>
+  <p>6. Найти в массиве количество и сумму элементов, которые делятся на 3.</p>
+      <label class="input-label" for="numbersInput">Введите числа через запятую:</label>
+      <input class="input-field" type="text" id="numbersInput">
+    <div class="button-container">
+      <button onclick="countAndSum()">Подсчитать</button>
+    </div>
+    <div id="result2"></div>
+    <script>
+      function countAndSum() {
+        let numbersString = document.getElementById("numbersInput").value;
+        let numbers = numbersString.split(",").map(function(item) {
+          return parseInt(item.trim());
+        });
+    
+        let count = 0;
+        let sum = 0;
+    
+        for (let i = 0; i < numbers.length; i++) {
+          if (numbers[i] % 3 === 0) {
+            count++;
+            sum += numbers[i];
+          }
+        }
+    
+        let resultElement = document.getElementById("result2");
+        resultElement.innerHTML = "<p>Количество элементов, делящихся на 3: " + count + "</p>";
+        resultElement.innerHTML += "<p>Сумма элементов, делящихся на 3: " + sum + "</p>";
+      }
+    </script>
+</body>
+</html>

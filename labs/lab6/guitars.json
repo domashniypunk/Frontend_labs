@@ -1,0 +1,56 @@
+[
+  {
+    "id": "1",
+    "model": "Fender Stratocaster",
+    "type": "Electric",
+    "year": 1956
+  },
+  {
+    "id": "2",
+    "model": "Gibson Les Paul",
+    "year": 1952,
+    "type": "Electric"
+  },
+  {
+    "id": "3",
+    "model": "Martin D-28",
+    "year": 1931,
+    "type": "Acoustic"
+  },
+  {
+    "id": "4",
+    "model": "Taylor 814ce",
+    "year": 1994,
+    "type": "Acoustic-Electric"
+  },
+  {
+    "id": "5",
+    "model": "Ibanez RG550",
+    "year": 1987,
+    "type": "Electric"
+  },
+  {
+    "id": "6",
+    "model": "Gretsch G5420T",
+    "year": 2002,
+    "type": "Electric"
+  },
+  {
+    "id": "7",
+    "model": "PRS Custom 24",
+    "year": 1985,
+    "type": "Electric"
+  },
+  {
+    "id": "8",
+    "model": "Gibson J-45",
+    "year": 1942,
+    "type": "Acoustic"
+  },
+  {
+    "id": "9",
+    "model": "Fender Telecaster",
+    "year": 1951,
+    "type": "Electric"
+  }
+]
